@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Menu } from 'lucide-react';
@@ -15,7 +15,7 @@ export const Navbar = () => {
   const { data: session } = useSession();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const pathname = usePathname();
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const navItemVariants = {
@@ -52,7 +52,7 @@ export const Navbar = () => {
             variants={navItemVariants}
             custom={0}
           >
-            {session?.user && (
+            {session?.user && pathname !== '/home' && (
               <Button
                 onClick={() => router.back()}
                 variant={'ghost'}
